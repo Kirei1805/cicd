@@ -2,7 +2,7 @@ name: Build & Deploy (OPTIMIZED VERSION)
 
 on:
   push:
-    branches: [ main ]
+    branches: [ loiphan ]
 
 jobs:
   build-and-test: # Tiêu chí: Gộp jobs (1 job)
