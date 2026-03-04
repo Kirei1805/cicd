@@ -65,22 +65,28 @@ app.get('/api/students/:id', (req, res) => {
 // =============================================
 // START SERVER
 // =============================================
-const server = app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}`);
-    console.log(`📋 Health check: http://localhost:${PORT}/health`);
-    console.log(`ℹ️  System info: http://localhost:${PORT}/api/info`);
-});
+// Export app for testing
+module.exports = app;
 
-// Graceful shutdown
-process.on('SIGTERM', () => {
-    console.log('🛑 SIGTERM received. Shutting down gracefully...');
-    server.close(() => {
-        console.log('👋 Server closed.');
-        process.exit(0);
+// Chỉ listen khi chạy trực tiếp (không phải khi import vào test)
+if (require.main === module) {
+    const server = app.listen(PORT, () => {
+        console.log(`🚀 Server running at http://localhost:${PORT}`);
+        console.log(`📋 Health check: http://localhost:${PORT}/health`);
+        console.log(`ℹ️  System info: http://localhost:${PORT}/api/info`);
     });
-});
 
-process.on('SIGINT', () => {
-    console.log('🛑 SIGINT received. Shutting down...');
-    server.close(() => process.exit(0));
-});
+    // Graceful shutdown
+    process.on('SIGTERM', () => {
+        console.log('🛑 SIGTERM received. Shutting down gracefully...');
+        server.close(() => {
+            console.log('👋 Server closed.');
+            process.exit(0);
+        });
+    });
+
+    process.on('SIGINT', () => {
+        console.log('🛑 SIGINT received. Shutting down...');
+        server.close(() => process.exit(0));
+    });
+}
