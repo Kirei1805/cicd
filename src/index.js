@@ -69,6 +69,7 @@ app.get('/api/students/:id', (req, res) => {
 module.exports = app;
 
 // Chỉ listen khi chạy trực tiếp (không phải khi import vào test)
+/* istanbul ignore next */
 if (require.main === module) {
     const server = app.listen(PORT, () => {
         console.log(`🚀 Server running at http://localhost:${PORT}`);
